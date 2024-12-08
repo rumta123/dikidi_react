@@ -1,0 +1,25 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+}
+
+.main-content {
+  margin-top: 80px; /* Высота заголовка */
+  min-height: calc(100vh - 80px); /* Учет заголовка */
+  padding: 20px;
+  width:100vw;
+}
+
+.active-link {
+  text-decoration: underline;
+  color: #074eb6;
+}
+  .menu{
+  padding-top:200px
+  }
