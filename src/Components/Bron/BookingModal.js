@@ -1,5 +1,7 @@
 import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import { parseTime } from "../../utils/timeUtils";
+import MasterList from "./MasterList";
 
 const BookingModal = ({ show, onHide, formData, handleFormChange, handleFormSubmit }) => {
   // Проверяем, есть ли данные о слоте перед рендером
@@ -17,10 +19,13 @@ const BookingModal = ({ show, onHide, formData, handleFormChange, handleFormSubm
       <Modal.Body>
         {/* Выводим информацию о записи */}
         <p>
-          <strong>Мастер:</strong> {masterName} <br />
-          <strong>Дата и время:</strong> {startTime} - {endTime} <br />
-          <strong>Длительность:</strong> {duration} <br />
-        </p>
+  <strong>Мастер:</strong> {formData.selectedSlot?.masterName || 'Не выбран'} <br />
+  <strong>Дата и время:</strong> {formData.selectedSlot?.startTime || 'Не выбрано'} - {formData.selectedSlot?.endTime || 'Не выбрано'} <br />
+  <strong>Длительность:</strong> {formData.duration || 'Не указано'} <br />
+  <strong>Время выполнения:</strong> {parseTime(formData.estimatedTime) || 'Не указано'} <br />
+  <strong>ID слота:</strong> {formData.slotId || 'Не указан'} <br />
+</p>
+
 
         {/* Форма для ввода данных */}
         <Form onSubmit={handleFormSubmit}>
