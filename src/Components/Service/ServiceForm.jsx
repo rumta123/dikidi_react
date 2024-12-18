@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Modal, Form } from 'react-bootstrap';
-
+import { parseTime } from '../../utils/timeUtils';
 const ServiceForm = () => {
     const [services, setServices] = useState([]);
     const [newService, setNewService] = useState({
@@ -12,24 +12,6 @@ const ServiceForm = () => {
     });
     const [showModal, setShowModal] = useState(false);
     const [editService, setEditService] = useState(null);
-
-
-    // Функция для преобразования строки времени в человекочитаемый формат
-    const parseTime = (timeString) => {
-        if (!timeString) return '—'; // Если время отсутствует
-        const regex = /PT(\d+H)?(\d+M)?/;
-        const match = timeString.match(regex);
-        if (!match) return '—'; // Если формат строки неверный
-    
-        const hours = match[1] ? parseInt(match[1], 10) : 0;
-        const minutes = match[2] ? parseInt(match[2], 10) : 0;
-    
-        let result = '';
-        hours > 0 && (result += `${hours} ч. `);
-        minutes > 0 && (result += `${minutes} мин`);
-        return result.trim();
-    };
-    
 
     // Загрузка списка сервисов
     useEffect(() => {
@@ -177,6 +159,7 @@ const ServiceForm = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
+                        <th>№</th>
                         <th>Название</th>
                         <th>Базовая цена</th>
                         <th>Базовое время</th>
@@ -184,14 +167,15 @@ const ServiceForm = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {services.map((service) => (
+                    {services.map((service, index) => (
                         <tr key={service.id}>
+                            <td>{index+1}</td>
                             <td>{service.name}</td>
                             <td>{service.basicPrice}</td>
                             <td>{service.basicTime ? parseTime(service.basicTime) : '—'}</td>
 
                             <td>
-                                <Button onClick={() => handleEditService(service)}>Редактировать</Button>
+                                <Button variant="warning"  onClick={() => handleEditService(service)}>Редактировать</Button>
                                 <Button variant="danger" onClick={() => handleDeleteService(service.id)}>
                                     Удалить
                                 </Button>

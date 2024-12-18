@@ -15,15 +15,20 @@ function Login() {
     }
   }, [isLoggedIn, navigate]); // Эффект срабатывает при изменении isLoggedIn
 
-  const handleAuth = async (email, password) => {
+  const handleAuth = async (email, password, additionalData = {}) => {
     const endpoint = isLoginMode
       ? "http://localhost:8081/auth/login"
       : "http://localhost:8081/auth/register";
   
-    const loginData = {
-      email: email,
-      password: password,
-    };
+    const data = isLoginMode
+      ? { email, password }
+      : {
+          email,
+          password,
+          name: additionalData.name,
+          phone: additionalData.phone,
+          role: additionalData.role, // Добавляем роль при регистрации
+        };
   
     try {
       const response = await fetch(endpoint, {
@@ -31,7 +36,7 @@ function Login() {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: new URLSearchParams(loginData),
+        body: new URLSearchParams(data),
       });
   
       if (!response.ok) {
@@ -40,8 +45,8 @@ function Login() {
       }
   
       if (isLoginMode) {
-        const { name } = await response.json(); // Получаем имя пользователя из ответа сервера
-        login(name); // Сохраняем имя пользователя в cookies
+        const { name, role } = await response.json(); // Получаем имя и роль пользователя из ответа сервера
+        login(name, role); // Сохраняем имя и роль пользователя в контексте и cookies
         navigate("/dashboard");
       } else {
         alert("Регистрация успешна. Теперь вы можете войти.");
@@ -51,8 +56,6 @@ function Login() {
       alert("Ошибка авторизации: " + error.message);
     }
   };
-  
-  
 
   return (
     <div style={styles.wrapper}>

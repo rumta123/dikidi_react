@@ -82,7 +82,7 @@ const QualificationsForm = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>№</th>
             <th>Имя</th>
             <th>Коэфициент цены</th>
             <th>Коэфициент времени</th>

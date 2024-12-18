@@ -1,78 +1,111 @@
 import React, { useState } from "react";
 
-const AuthForm = ({ isLoginMode, onSubmit }) => {
+function AuthForm({ isLoginMode, onSubmit }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("user");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      await onSubmit(email, password);
-    } catch (err) {
-      setError(err.message || "Произошла ошибка");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isLoginMode) {
+      onSubmit(email, password);
+    } else {
+      onSubmit(email, password, { name, phone, role });
     }
   };
 
   return (
-    <div style={styles.container}>
-      <h2>{isLoginMode ? "Авторизация" : "Регистрация"}</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
+    <form onSubmit={handleSubmit} className="p-4 border rounded bg-light shadow-sm">
+      <h2 className="mb-4">{isLoginMode ? "Вход" : "Регистрация"}</h2>
+
+      {!isLoginMode && (
+        <>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Имя
+            </label>
+            <input
+              type="text"
+              id="name"
+              className="form-control"
+              placeholder="Введите ваше имя"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required={!isLoginMode}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="phone" className="form-label">
+              Телефон
+            </label>
+            <input
+              type="text"
+              id="phone"
+              className="form-control"
+              placeholder="Введите ваш телефон"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required={!isLoginMode}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="role" className="form-label">
+              Роль
+            </label>
+            <select
+              id="role"
+              className="form-select"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="user">Админимтратор</option>
+              <option value="admin">Менеджер</option>
+            </select>
+          </div>
+        </>
+      )}
+
+      <div className="mb-3">
+        <label htmlFor="email" className="form-label">
+          Email
+        </label>
         <input
           type="email"
-          placeholder="Email"
+          id="email"
+          className="form-control"
+          placeholder="Введите ваш email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={styles.input}
         />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="password" className="form-label">
+          Пароль
+        </label>
         <input
           type="password"
-          placeholder="Пароль"
+          id="password"
+          className="form-control"
+          placeholder="Введите ваш пароль"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={styles.input}
         />
-        {error && <p style={styles.error}>{error}</p>}
-        <button type="submit" style={styles.button}>
-          {isLoginMode ? "Войти" : "Зарегистрироваться"}
-        </button>
-      </form>
-    </div>
-  );
-};
+      </div>
 
-const styles = {
-  container: {
-    width: "300px",
-    padding: "20px",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-    backgroundColor: "#fff",
-  },
-  form: { display: "flex", flexDirection: "column" },
-  input: {
-    width: "100%",
-    padding: "10px",
-    margin: "10px 0",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-  },
-  button: {
-    width: "100%",
-    padding: "10px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  error: {
-    color: "red",
-    fontSize: "0.9em",
-  },
-};
+      <button type="submit" className="btn btn-primary w-100">
+        {isLoginMode ? "Войти" : "Зарегистрироваться"}
+      </button>
+    </form>
+  );
+}
+
+
 
 export default AuthForm;

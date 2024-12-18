@@ -100,7 +100,7 @@ const MasterQualification = () => {
 
     return (
         <div className="container mt-4">
-            <h2>Master Qualification</h2>
+            <h2>Квалификация мастеров</h2>
 
             {/* Add Master Qualification Form */}
             <Button variant="primary" onClick={() => setShowModal(true)}>
@@ -158,6 +158,7 @@ const MasterQualification = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
+                        <th>№</th>
                         <th>Мастер</th>
                         <th>Квалификация</th>
                         {/* <th>Цена</th>
@@ -166,8 +167,9 @@ const MasterQualification = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {masterQualifications.map((item) => (
+                    {masterQualifications.map((item, index) => (
                         <tr key={item.id}>
+                            <td>{index+1}</td>
                             <td>{item.master ? item.master.name : 'Не указан'}</td>
                             <td>{item.qualification ? item.qualification.name : 'Не указана'}</td>
                             {/* <td>{item.qualification ? item.qualification.price : 'Не указана'}₽</td>

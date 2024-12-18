@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/serv" element={<SlotScheduler />}/>
+          {/* <Route path="/serv" element={<SlotScheduler />}/> */}
           <Route path="/" element={<BookingForm />}>
             {/* Вложенные маршруты */}
             <Route path="services" element={<ServiceForm />} />

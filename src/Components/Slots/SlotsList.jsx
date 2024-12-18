@@ -48,7 +48,7 @@ const SlotList = () => {
     const masterSlots = filteredSlots.filter((slot) => slot.master.id === master.id);
     return masterSlots.length > 0; // Показываем только тех мастеров, у которых есть слоты
   });
-
+console.log('slots', slots)
   return (
     <div style={{ padding: "20px" }}>
       <h1>Расписание слотов</h1>
@@ -88,9 +88,12 @@ const SlotList = () => {
               <table border="1" style={{ width: "100%", textAlign: "center" }}>
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    {/* <th>ID</th> */}
                     <th>Начало</th>
                     <th>Конец</th>
+                    <th>Клиент</th>
+                    <th>Услуга</th>
+                    <th>Цена</th>
                     <th>Статус</th>
                   </tr>
                 </thead>
@@ -98,9 +101,12 @@ const SlotList = () => {
                   {masterSlots.length > 0 ? (
                     masterSlots.map((slot,index) => (
                       <tr key={slot.id}>
-                        <td>{index+ 1}</td>
+                        {/* <td>{index+ 1}</td> */}
                         <td>{slot.startTime}</td>
                         <td>{slot.endTime}</td>
+                        <td>{slot.clients && slot.clients.name ? slot.clients.name : "Нет данных"}</td>
+                        <td>{slot.service && slot.service.name ? slot.service.name : "Нет данных"}</td>
+                        <td>{slot.price ? slot.price : "Нет данных"}</td>
                         <td>{slot.status}</td>
                       </tr>
                     ))

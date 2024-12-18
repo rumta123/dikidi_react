@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
-
+import { parseTime } from "../../utils/timeUtils";
 const AddMasterQualificationServicesTable = ({ onSubmit }) => {
   const [masters, setMasters] = useState([]);
   const [services, setServices] = useState([]);
@@ -152,7 +152,7 @@ const AddMasterQualificationServicesTable = ({ onSubmit }) => {
               <Alert variant="info" className="mt-3">
                 <strong>Услуга</strong>
                 <div>Цена: {serviceDetails.basicPrice}₽</div>
-                <div>Время: {serviceDetails.basicTime}</div>
+                <div>Время: {parseTime(serviceDetails.basicTime)}</div>
               </Alert>
             )}
           </Col>

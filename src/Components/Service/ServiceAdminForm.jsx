@@ -12,9 +12,8 @@ import { Button } from "react-bootstrap";
 import BookingModal from "../Bron/BookingModal"; // Импортируем ваш компонент BookingModal
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Modal } from "bootstrap";
-
-const ServiceClientForm = () => {
+import SlotListAdmin from "../Bron/SlotListAdmin";
+const ServiceAdminForm = () => {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,6 +23,7 @@ const ServiceClientForm = () => {
   const [selectedMaster, setSelectedMaster] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для открытия/закрытия модалки
+  const [bookedSlots, setBookedSlots] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null); // Состояние для выбранной даты
   const [formData, setFormData] = useState({
     name: "",
@@ -36,6 +36,13 @@ const ServiceClientForm = () => {
     serviceId: "", // Название услуги
     priceM: "", // Цена услуги
   });
+
+  useEffect(() => {
+    // Фильтруем занятые слоты
+    const booked = slots.filter((slot) => slot.status === "забронировано");
+    console.log("booked", booked);
+    setBookedSlots(booked);
+  }, [slots]);
 
   useEffect(() => {
     fetchServices()
@@ -99,7 +106,43 @@ const ServiceClientForm = () => {
   };
 
   // Функция для парсинга строки вида PT3H10M и получения времени в миллисекундах
+  const handleCancelBooking = async (slotId, clientId) => {
+    try {
+      // Отправляем запрос на сервер
+      const response = await fetch(
+        `http://localhost:8081/slots/cancel/${slotId}/${clientId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
+      if (!response.ok) {
+        throw new Error(`Ошибка при отмене записи: ${response.statusText}`);
+      }
+
+      // Успешное уведомление об отмене
+      alert(`Запись успешно отменена для слота ${slotId}`);
+      // Обновляем список забронированных слотов
+      if (selectedDate && selectedMaster) {
+        const updatedSlots = await fetchSlotsForMaster(
+          selectedMaster.id,
+          selectedDate
+        );
+        setSlots(updatedSlots); // Обновляем слоты
+      }
+      setBookedSlots((prevSlots) =>
+        prevSlots.filter((slot) => slot.id !== slotId)
+      );
+    } catch (err) {
+      // Обработка ошибок
+      alert(`Произошла ошибка при отмене записи: ${err.message}`);
+
+      console.error(err.message);
+    }
+  };
   const handleSlotSelect = (slot) => {
     console.log("Raw slot startTime:", slot.startTime);
     console.log("Raw slot endTime:", slot.endTime);
@@ -218,14 +261,6 @@ const ServiceClientForm = () => {
     // Преобразуем массив слотов в массив ID
     const slotIds = formData.selectedSlot.map((slot) => slot.id);
     const slotIds1 = slotIds.join(",");
-    // Подготавливаем данные для отправки
-    const requestBody = {
-      clientName: formData.name || "Jane Doe", // Если имя пустое, использовать значение по умолчанию
-      clientPhone: formData.phone || "+1234567890", // Если телефон пустой, использовать значение по умолчанию
-      clientEmail: formData.email || "jane.doe@example.com", // Если email пустой, использовать значение по умолчанию
-      serviceId: 1, // formData.serviceId,  Отправляем serviceId
-      price: 1000, //formData.priceM,  Отправляем цену услуги
-    };
 
     try {
       // Отправляем запрос с данными
@@ -251,11 +286,8 @@ const ServiceClientForm = () => {
         throw new Error(`Ошибка при записи: ${response.statusText}`);
       }
 
-      console.log("body", JSON.stringify(requestBody));
-
       // Уведомление об успешной записи
-      // alert(`Запись успешно создана для слотов: ${slotIds.join(", ")}`);
-      alert('Запись успешно создана')
+      alert(`Запись успешно создана`);
       handleCloseModal(); // Закрываем модальное окно
       // Обновляем таблицу слотов
       if (selectedDate && selectedMaster) {
@@ -278,50 +310,6 @@ const ServiceClientForm = () => {
     setSelectedDate(utcDate);
     console.log("utcDate", utcDate.toISOString());
   };
-
-  // const filterAvailableSlots = (slots, serviceDurationInMinutes) => {
-  //   let availableSlots = [];
-  //   let totalDuration = 0;
-  //   let lastEndTime = 0;
-
-  //   for (let i = 0; i < slots.length; i++) {
-  //     const currentSlot = slots[i];
-
-  //     // Проверяем, что слот свободен
-  //     if (currentSlot.status !== "свободно") continue;
-
-  //     const [startHour, startMinute] = currentSlot.startTime.split(':').map(Number);
-  //     const [endHour, endMinute] = currentSlot.endTime.split(':').map(Number);
-
-  //     // Преобразуем время в минуты
-  //     const startTimeInMinutes = startHour * 60 + startMinute;
-  //     const endTimeInMinutes = endHour * 60 + endMinute;
-  //     const slotDuration = endTimeInMinutes - startTimeInMinutes;
-
-  //     if (totalDuration === 0) {
-  //       // Начинаем с первого доступного слота
-  //       availableSlots.push(currentSlot);
-  //       lastEndTime = endTimeInMinutes;
-  //       totalDuration += slotDuration;
-  //       continue;
-  //     }
-
-  //     // Если текущий слот начинается позже, чем предыдущий завершился, добавляем его
-  //     if (startTimeInMinutes >= lastEndTime) {
-  //       availableSlots.push(currentSlot);
-  //       totalDuration += slotDuration;
-  //       lastEndTime = endTimeInMinutes;
-  //     }
-
-  //     // Проверяем, если общая длительность достаточно для услуги
-  //     if (totalDuration >= serviceDurationInMinutes) {
-  //       break;
-  //     }
-  //   }
-
-  //   // Проверяем, если мы накопили достаточно времени для услуги
-  //   return totalDuration >= serviceDurationInMinutes ? availableSlots : [];
-  // };
 
   const filterAvailableSlots = (slots, serviceDurationInMinutes) => {
     let availableSlots = [];
@@ -418,8 +406,15 @@ const ServiceClientForm = () => {
         handleFormChange={handleFormChange}
         handleFormSubmit={handleFormSubmit}
       />
+      <h2>Записи</h2>
+      <SlotListAdmin
+        slots={bookedSlots}
+        onSlotCancel={(slotId, clientId) =>
+          handleCancelBooking(slotId, clientId)
+        }
+      />
     </div>
   );
 };
 
-export default ServiceClientForm;
+export default ServiceAdminForm;

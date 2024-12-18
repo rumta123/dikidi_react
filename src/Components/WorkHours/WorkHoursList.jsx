@@ -26,9 +26,6 @@ const WorkHoursList = () => {
         setWorkHours((prevWorkHours) => [...prevWorkHours, newWorkHour]);
     };
 
-
-    // Обработка поиска
-
     // Обработка поиска
     const filteredWorkHours = workHours.filter((workHour) => {
         const query = searchQuery.toLowerCase();
@@ -185,13 +182,12 @@ const WorkHoursList = () => {
             </Modal>
 
 
-            <h1 className="text-center mb-4">Work Hours</h1>
- {/* Поле поиска */}
-      {/* Поле поиска */}
+            <h1 className="text-center mb-4">График работы</h1>
+ 
       <input
                 type="text"
                 className="form-control mb-3"
-                placeholder="Search by text..."
+                placeholder="Поиск..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -202,7 +198,7 @@ const WorkHoursList = () => {
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
             >
-                <option value="">Select Month</option>
+                <option value="">Выберете месяц</option>
                 {months.map((month) => (
                     <option key={month.id} value={month.name}>
                         {month.name}
@@ -216,7 +212,7 @@ const WorkHoursList = () => {
                 value={selectedMaster}
                 onChange={(e) => setSelectedMaster(e.target.value)}
             >
-                <option value="">Select Master</option>
+                <option value="">Выберете мастера</option>
                 {masters.map((master) => (
                     <option key={master.id} value={master.name}>
                         {master.name}
@@ -262,19 +258,19 @@ const WorkHoursTable = ({ workHours,  onSort, sortConfig,  onEdit, onDelete }) =
         <thead className="thead-dark">
         <tr>
                 <th onClick={() => onSort("workDate")}>
-                    Date {sortConfig.key === "workDate" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                    Дата {sortConfig.key === "workDate" && (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </th>
                 <th onClick={() => onSort("startTime")}>
-                    Start Time {sortConfig.key === "startTime" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                    Время начала {sortConfig.key === "startTime" && (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </th>
                 <th onClick={() => onSort("endTime")}>
-                    End Time {sortConfig.key === "endTime" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                   Время окончания {sortConfig.key === "endTime" && (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </th>
-                <th>Masters</th>
+                <th>Мастера</th>
                 <th onClick={() => onSort("month.name")}>
-                    Month {sortConfig.key === "month.name" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                   Месяц {sortConfig.key === "month.name" && (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </th>
-                <th>Actions</th>
+                <th>Действие</th>
             </tr>
         </thead>
         <tbody>
@@ -286,11 +282,11 @@ const WorkHoursTable = ({ workHours,  onSort, sortConfig,  onEdit, onDelete }) =
                     <td>{workHour.masters?.map((master) => master.name).join(", ") || "No masters"}</td>
                     <td>{workHour.month.name}</td>
                     <td>
-                        <button className="btn btn-primary btn-sm mr-2" onClick={() => onEdit(workHour)}>
-                            Edit
+                        <button className="btn btn-warning btn-sm mr-2" onClick={() => onEdit(workHour)}>
+                            Редактировать
                         </button>
                         <button className="btn btn-danger btn-sm" onClick={() => onDelete(workHour.id)}>
-                            Delete
+                            Удалить
                         </button>
                     </td>
                 </tr>
@@ -324,7 +320,7 @@ const EditForm = ({ formData, handleChange, handleSave, setEditingWorkHours, mon
                         />
                     </div>
                     <div className="form-group">
-                        <label>Start Time</label>
+                        <label>Время начала</label>
                         <input
                             type="time"
                             className="form-control"
@@ -334,7 +330,7 @@ const EditForm = ({ formData, handleChange, handleSave, setEditingWorkHours, mon
                         />
                     </div>
                     <div className="form-group">
-                        <label>End Time</label>
+                        <label>Время окончания</label>
                         <input
                             type="time"
                             className="form-control"
@@ -344,7 +340,7 @@ const EditForm = ({ formData, handleChange, handleSave, setEditingWorkHours, mon
                         />
                     </div>
                     <div className="form-group">
-                        <label>Masters</label>
+                        <label>Мастера</label>
                         <div>
                             {mastersList.map((masterId) => {
                                 console.log('masterId', masterId); // Проверяем, что передается в masterId
@@ -369,7 +365,7 @@ const EditForm = ({ formData, handleChange, handleSave, setEditingWorkHours, mon
                             onChange={handleChange}
                             multiple
                         >
-                            <option value="">Add Master</option>
+                            <option value="">Выберете мастера</option>
                             {masters
                                 .filter((master) => !formData.masters.includes(master.id)) // Исключаем уже выбранных
                                 .map((master) => (
@@ -387,7 +383,7 @@ const EditForm = ({ formData, handleChange, handleSave, setEditingWorkHours, mon
                             value={formData.month}
                             onChange={handleChange}
                         >
-                            <option value="">Select Month</option>
+                            <option value="">Выберете месяц</option>
                             {months.map((month) => (
                                 <option key={month.id} value={month.name}>
                                     {month.name}

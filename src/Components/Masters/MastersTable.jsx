@@ -95,14 +95,14 @@ const MastersTable = () => {
 
     return (
         <div className="container mt-5">
-            <h1 className="mb-4">Masters Management</h1>
+            <h1 className="mb-4">Мастера</h1>
 
             {/* Add Master Form */}
             <div className="card mb-4">
-                <div className="card-header">Add New Master</div>
+                <div className="card-header">Добавить нового мастера</div>
                 <div className="card-body">
                     <div className="form-group">
-                        <label>Name</label>
+                        <label>Имя</label>
                         <input
                             type="text"
                             className="form-control"
@@ -113,7 +113,7 @@ const MastersTable = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Phone Number</label>
+                        <label>Номер телефона</label>
                         <input
                             type="text"
                             className="form-control"
@@ -126,8 +126,9 @@ const MastersTable = () => {
                             }
                         />
                     </div>
+                    <br />
                     <button className="btn btn-primary" onClick={handleAddMaster}>
-                        Add Master
+                        Добавить мастера
                     </button>
                 </div>
             </div>
@@ -136,10 +137,10 @@ const MastersTable = () => {
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th>Index</th>
-                        <th>Name</th>
-                        <th>Phone Number</th>
-                        <th>Actions</th>
+                        <th>№</th>
+                        <th>Имя</th>
+                        <th>Мобильный телефон</th>
+                        <th>Действие</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -153,13 +154,13 @@ const MastersTable = () => {
                                     className="btn btn-warning btn-sm mr-2"
                                     onClick={() => handleEditMaster(index)}
                                 >
-                                    Edit
+                                    Редактировать 
                                 </button>
                                 <button
                                     className="btn btn-danger btn-sm"
                                     onClick={() => handleDeleteMaster(index)}
                                 >
-                                    Delete
+                                    Удалить
                                 </button>
                             </td>
                         </tr>
@@ -184,7 +185,7 @@ const MastersTable = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Phone Number</label>
+                            <label>Номер телефона</label>
                             <input
                                 type="text"
                                 className="form-control"

@@ -159,7 +159,7 @@ const ServiceClientForm = () => {
           new Date(slotStartTime) < slotEndTime) ||
         (endTime > new Date(slot.start) && endTime <= slotEndTime)
       ) {
-        return { ...slot, status: "Забронирован" }; // Блокируем пересекающиеся слоты
+        return { ...slot, status: "забронировано" }; // Блокируем пересекающиеся слоты
       }
       return slot;
     });

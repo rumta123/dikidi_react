@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Modal, Form } from "react-bootstrap";
 import AddMasterQualificationServicesTable from "./AddMasterQualificationServicesTable";
-
+import { parseTime } from "../../utils/timeUtils";
 const MasterQualificationServicesTable = () => {
   const [services, setServices] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -74,22 +74,24 @@ const MasterQualificationServicesTable = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th>№</th>
             <th>Мастер</th>
             <th>Квалификация</th>
             <th>Услуга</th>
-            <th>КЦена</th>
+            <th>Цена</th>
             <th>Время</th>
             <th>Действия</th>
           </tr>
         </thead>
         <tbody>
-          {services.map((service) => (
+          {services.map((service, index) => (
             <tr key={service.id}>
+              <td>{index+1}</td>
               <td>{service.masterQualification.master.name}</td>
               <td>{service.masterQualification.qualification?.name || "Нет данных"}</td>
               <td>{service.service.name}</td>
               <td>{service.price}₽</td>
-              <td>{service.estimatedTime}</td>
+              <td>{parseTime(service.estimatedTime)}</td>
               <td>
                 <Button variant="danger" className="me-2" onClick={() => handleDelete(service.id)}>
                   Удалить

@@ -40,6 +40,10 @@ const MasterList = ({ masters, selectedMaster, onSelect, loading }) => {
                 <strong>Время выполнения:</strong>{" "}
                 {parseTime(master.estimatedTime)}
               </Card.Text>
+              <Card.Text>
+                <strong>Цена:</strong>{" "}
+                {master.price}
+              </Card.Text>
             </Card.Body>
           </Card>
         );

@@ -180,10 +180,12 @@ http://localhost:8081/free-slots/filter?masterId=1&masterQualificationServiceId=
     }
 
 ### запись
-http://localhost:8081/slots/book/18
+POST http://localhost:8081/slots/book/99,102,103
 {
     "clientName": "Jane Doe1",
     "clientPhone": "+12345678943434441",
     "clientEmail": "jane.doe@example.com"
 }
 
+### отмена 
+PUT http://localhost:8081/slots/cancel/{slotId}/{clientId}

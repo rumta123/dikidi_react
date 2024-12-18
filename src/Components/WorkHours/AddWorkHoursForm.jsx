@@ -79,25 +79,25 @@ const AddWorkHoursForm = ({ onAddWorkHour }) => {
             // Очистим форму после успешного добавления
             onAddWorkHour(updatedData);
             setFormData({ workDate: "", startTime: "", endTime: "", masters: [], month: "" });
-            alert("Work hours added successfully!"); // Показать успешное сообщение
+            alert("Рабочие часы успешно добавлены"); // Показать успешное сообщение
 
         } catch (error) {
-            console.error("Error adding work hours:", error);
-            alert("Failed to add work hours.");
+            console.error("ошибка:", error);
+            alert("ошибка.");
         }
     };
 
     return (
         <div className="container mt-5">
-            <h1 className="text-center mb-4">Add Work Hour</h1>
+            <h1 className="text-center mb-4">Добавить рабочие часы </h1>
             <div className="card">
                 <div className="card-header">
-                    <h5>Add Work Hour Form</h5>
+                    <h5>График</h5>
                 </div>
                 <div className="card-body">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label>Work Date</label>
+                            <label>Дата работы</label>
                             <input
                                 type="date"
                                 className="form-control"
@@ -108,7 +108,7 @@ const AddWorkHoursForm = ({ onAddWorkHour }) => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Start Time</label>
+                            <label>Время начала</label>
                             <input
                                 type="time"
                                 className="form-control"
@@ -119,7 +119,7 @@ const AddWorkHoursForm = ({ onAddWorkHour }) => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>End Time</label>
+                            <label>Время окончания</label>
                             <input
                                 type="time"
                                 className="form-control"
@@ -130,7 +130,7 @@ const AddWorkHoursForm = ({ onAddWorkHour }) => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Masters</label>
+                            <label>Мастера</label>
                             <select
                                 className="form-control mt-2"
                                 name="masters"
@@ -138,7 +138,7 @@ const AddWorkHoursForm = ({ onAddWorkHour }) => {
                                 onChange={handleChange}
                                 multiple
                             >
-                                <option value="">Select Masters</option>
+                                <option value="">Выберите мастеров</option>
                                 {masters.map((master) => (
                                     <option key={master.id} value={master.id}>
                                         {master.name}
@@ -147,7 +147,7 @@ const AddWorkHoursForm = ({ onAddWorkHour }) => {
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>Month</label>
+                            <label>Месяц</label>
                             <select
                                 className="form-control"
                                 name="month"
@@ -155,7 +155,7 @@ const AddWorkHoursForm = ({ onAddWorkHour }) => {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">Select Month</option>
+                                <option value="">Выберите месяц</option>
                                 {months.map((month) => (
                                     <option key={month.id} value={month.name}>
                                         {month.name}
@@ -165,7 +165,7 @@ const AddWorkHoursForm = ({ onAddWorkHour }) => {
                         </div>
                         <div className="form-group">
                             <button type="submit" className="btn btn-primary">
-                                Add Work Hour
+                                Добавить
                             </button>
                         </div>
                     </form>
