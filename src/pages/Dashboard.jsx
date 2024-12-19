@@ -17,14 +17,28 @@ import Work from "../Components/WorkHours/Work";
 import SlotsList from "../Components/Slots/SlotsList";
 import MasterQualificationForm from "../Components/MasterQualification/MasterQualification";
 import ServiceAdminForm from "../Components/Service/ServiceAdminForm";
+import RegistrationForm from "../Components/RegistrationForm";
 // import SlotsPage from './SlotsPage'
 const Dashboard = () => {
-  const { isLoggedIn, logout, userName, userRole } = useAuth();
+  const { isLoggedIn, logout, userName } = useAuth();
   const [activeComponent, setActiveComponent] = useState("clients");
-
+  const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
-
+ 
+  const getCookieValue = (cookieName) => {
+    const cookies = document.cookie.split("; ");
+    for (let cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === cookieName) {
+        return decodeURIComponent(value);
+      }
+    }
+    return null;
+  };
+  
   useEffect(() => {
+    const role = getCookieValue("role");
+    setUserRole(role);
     if (!isLoggedIn) {
       navigate("/"); // Если не авторизован, перенаправляем на страницу входа
     }
@@ -33,7 +47,7 @@ const Dashboard = () => {
   if (!isLoggedIn) {
     return null; // Чтобы предотвратить рендеринг до редиректа
   }
-
+console.log('userRole', userRole )
   return (
     <div>
       {/* Фиксированный заголовок */}
@@ -151,7 +165,7 @@ const Dashboard = () => {
             <Col xs={9} sm={10} className="p-3">
               {activeComponent === "work" && <Work />}
               {activeComponent === "worker" && userRole === "ADMIN" && (
-                <AllClients />
+                <RegistrationForm />
               )}
               {activeComponent === "clients" && <AllClients />}
               {activeComponent === "qualifications" && <AllQualifications />}
