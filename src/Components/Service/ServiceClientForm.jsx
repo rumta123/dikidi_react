@@ -12,7 +12,7 @@ import { Button } from "react-bootstrap";
 import BookingModal from "../Bron/BookingModal"; // Импортируем ваш компонент BookingModal
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Modal } from "bootstrap";
+
 
 const ServiceClientForm = () => {
   const [services, setServices] = useState([]);
