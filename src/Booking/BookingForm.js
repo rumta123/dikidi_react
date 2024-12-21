@@ -1,6 +1,6 @@
 import React from "react";
 import ServiceClientForm from "../Service/ServiceClientForm";
-import MastersTable from "../Masters/MastersTable";
+// import MastersTable from "../Masters/MastersTable";
 import { Link, Routes, Route } from "react-router-dom";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
 import styled from 'styled-components';
@@ -30,7 +30,7 @@ const BookingForm = () => {
                 </Link>
                 {/* <Link to="/masters">
                   <Button variant="secondary" size="lg">
-                    Об авторе
+                    Перейти к списку мастеров
                   </Button>
                 </Link> */}
               </FlexContainer>
@@ -42,7 +42,7 @@ const BookingForm = () => {
       {/* Маршруты */}
       <Routes>
         <Route path="/services" element={<ServiceClientForm />} />
-        <Route path="/masters" element={<MastersTable />} />
+        {/* <Route path="/masters" element={<MastersTable />} /> */}
       </Routes>
     </Container>
   );

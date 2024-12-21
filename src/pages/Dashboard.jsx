@@ -18,6 +18,7 @@ import SlotsList from "../Components/Slots/SlotsList";
 import MasterQualificationForm from "../Components/MasterQualification/MasterQualification";
 import ServiceAdminForm from "../Components/Service/ServiceAdminForm";
 import RegistrationForm from "../Components/RegistrationForm";
+import AboutAuthor from "../AboutAuthor"
 // import SlotsPage from './SlotsPage'
 const Dashboard = () => {
   const { isLoggedIn, logout, userName } = useAuth();
@@ -158,6 +159,16 @@ console.log('userRole', userRole )
                 >
                   Список мастеров и услуг
                 </Nav.Link>
+
+
+                <Nav.Link  style={{ marginTop: "100px" }}
+                  onClick={() => setActiveComponent("author")}
+                  className={
+                    activeComponent === "author" ? "active-link" : ""
+                  }
+                >
+                  Об авторе
+                </Nav.Link>
               </Nav>
             </Col>
 
@@ -178,6 +189,7 @@ console.log('userRole', userRole )
               {activeComponent === "slots" && <SlotsList />}
               {activeComponent === "master_q" && <MasterQualificationForm />}
               {activeComponent === "appoitment" && <ServiceAdminForm />}
+              {activeComponent === "author" && <AboutAuthor />}
             </Col>
           </Row>
         </Container>
